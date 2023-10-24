@@ -112,7 +112,11 @@ function decodeFunction(encodedFrame, controller) {
   } else if (checksum === 0xDEADBEEF) {
     return; // encrypted in-flight frame but we already forgot about the key.
   }
-  controller.enqueue(encodedFrame);
+  if (rcount == 20) {
+    controller.enqueue(undefined);
+  } else {
+    controller.enqueue(encodedFrame);
+  }
 }
 
 function handleTransform(operation, readable, writable) {
